@@ -8,7 +8,7 @@ class TicTacToeNode
     @board = board
     @next_mover_mark = next_mover_mark
     @prev_move_pos = prev_move_pos
-    @children = []
+    # @children = []
   end
 
   def losing_node?(evaluator)
@@ -31,17 +31,26 @@ class TicTacToeNode
     children = []
     (0...3).each do |index|
       (0...3).each do |j|
-        if board.empty?([index, j])
+        pos = [index,j]
+        if board.empty?(pos)
           duplication = board.dup
-          duplication([index, j]) = next_mover_mark
+          duplication.setpos(pos,next_mover_mark)
           children << TicTacToeNode.new(duplication, op, prev_move_pos)
           # children = Array.new(9)
+        else
+          # make the 9th board?
+          duplication = board.dup
+        
+          children << TicTacToeNode.new(duplication, op, prev_move_pos)
         end
+        # end if
       end
     end
+    # end dos
     children
   end
-
-
-
+  #end func
 end
+
+t = TicTacToeNode.new(Board.new(),:x)
+t.children

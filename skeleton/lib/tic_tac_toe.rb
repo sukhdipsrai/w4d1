@@ -23,6 +23,13 @@ class Board
     @rows[row][col] = mark
   end
 
+  def setpos(pos,mark)
+    raise "mark already placed there!" unless empty?(pos)
+
+    row, col = pos[0], pos[1]
+    @rows[row][col] = mark
+  end
+
   def cols
     cols = [[], [], []]
     @rows.each do |row|
