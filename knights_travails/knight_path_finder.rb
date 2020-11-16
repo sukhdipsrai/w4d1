@@ -31,7 +31,7 @@ class KnightPathFinder
 
     def new_move_positions(pos)
         new_pos = KnightPathFinder.valid_moves(pos) - @considered_positions
-        # @considered_positions += new_pos
+        @considered_positions += new_pos
         return new_pos
     end
 
@@ -60,17 +60,17 @@ class KnightPathFinder
     # end
 
     # using breadth-first
-    def build_move_tree (target_value)
+    def build_move_tree ()
         queue = [@root_node]
 
         while !queue.empty?
             first = queue.shift
-            @considered_positions = trace_path_back(first)
+            #  @considered_positions += trace_path_back(first)
             new_pos = new_move_positions(first.value)
             new_pos.each { |pos| first.add_child(PolyTreeNode.new(pos)) }
             # p "parent is #{first.value}"
             # p first.children.map {|ele| ele.value}
-            return first if (first.value == target_value) 
+            # return first if (first.value == target_value) 
             first.children.each { |child| queue << child}
         end
 
@@ -79,9 +79,10 @@ class KnightPathFinder
 
 
     def find_path(end_pos)
-        ans = build_move_tree(end_pos)
-        # target_node = @root_node.bfs(end_pos)
-        return trace_path_back(ans)
+        ans = build_move_tree()
+        target_node = @root_node.bfs(end_pos)
+        return trace_path_back(target_node)
+        # return trace_path_back(ans)
     end
 
 
@@ -114,8 +115,10 @@ end
 kpf = KnightPathFinder.new([0, 0])
 
 # kpf.print
- # p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
+p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
 p kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
+p kpf.find_path([5,4])
+
 
 # [0,0] -> [1,2]  [2,1] 
 
